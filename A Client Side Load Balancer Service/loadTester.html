@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" style="width:100%;">
+<head>
+	<meta charset="utf-8">
+	<title>Load Balancer Testing Page</title>
+</head>
+<body style="width:100%;">
+<div style="padding: 25px; text-align: center;">
+	<h3>The Round Robin Test Page</h3>
+	<p>Enter a maximum value to calculate.</p>
+	<input type="number" id="myNum">
+		<button id="btn">Test It</button>
+</div>
+<div id="myFrames">
+<script>
+	var frames = []
+	document.getElementById("btn").addEventListener("click", function() {
+		for (i = 0; i < frames.length; i++) {
+			frames[i].remove();
+		}
+		frames = [];
+		setInterval(function() {
+			if(frames.length < 12){
+				var iframe = document.createElement('iframe');
+				iframe.id = Date.now();
+				iframe.width = "400";
+				iframe.height = "200";
+				document.getElementById("myNum").value
+				iframe.src = "http://127.0.0.1:80?number=" + Math.floor(Math.random() * (document.getElementById("myNum").value + 1));
+				frames.push(iframe);
+				document.getElementById("myFrames").appendChild(iframe);
+			}
+		}, 100);
+	});
+</script>
+</body>
+</html>

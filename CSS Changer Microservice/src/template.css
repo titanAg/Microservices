@@ -1,0 +1,21 @@
+/*
+// COSC331 Lab 1 - Building Our First Microservice
+// Kyle Orcutt
+// 300277486 
+*/
+
+html {
+    font-family: _FONT_FAMILY_;
+}
+
+body {
+    background-color: _MAIN_COLOUR_;
+}
+
+.messageDiv {
+    background-color: #F5F5F5;
+    border: 3px _BORDER_STYLE_ _ACCENT_COLOUR_;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 5px 5px 5px 1px rgba(100, 100, 100, 0.2);
+}

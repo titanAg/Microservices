@@ -1,0 +1,73 @@
+<html>
+<head>
+<style>
+div {
+	width: 300px;
+	height: 300px;
+	position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+input {
+	margin-bottom: 10px;
+	width: 100%;
+}
+</style>
+</head>
+<body>
+	<div>
+		<form id="request" action="http://localhost:8080/">
+			<fieldset>
+			<legend>Symmetric Encryption Tester</legend>
+			<br>
+			<label>Local Server</label>
+			<input type="text" name="localserver" id="localserver" value="http://127.0.0.1:8080/">
+			<br>
+			<label>Encryption Endpoint</label>
+			<input type="text" name="endpoint" id="endpoint" value="http://138.197.157.243/encryptionEndpoint">
+			<br>
+			<label>Public Key Reference</label>
+			<input type="text" name="publickey" id="publickey" value="http://138.197.157.243/publicKey">
+			<br>
+			<label>Fetch URI</label>
+			<input type="text" name="fetch" id="fetch" value="http://138.197.157.243/fetchMessage/">
+			<br>
+			<label>Message to Encrypt</label>
+			<input type="text" name="plaintext" id="plaintext" placeholder="My deep dark secret.">
+			<br>
+			<br>
+			<input type="submit">
+			</fieldset>
+		</form>
+	</div>
+	<script>
+	window.addEventListener( "load", function() {
+		function sendRequest(){
+			var endpoint = document.getElementById("endpoint").value;
+			var publickey = document.getElementById("publickey").value;
+			var fetch = document.getElementById("fetch").value;
+			var plaintext = document.getElementById("plaintext").value;
+			var local = document.getElementById('localserver').value;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+			  if (this.readyState == 4 && xhttp.status == 200) {
+				alert("Message Sent Successfully. " + this.responseText);
+			  }
+			};
+			xhttp.open("POST", local, true);
+			xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xhttp.send("endpoint=" + endpoint + "&publickey=" + publickey + "&fetch=" + fetch + "&plaintext=" + plaintext);
+		}
+		const form = document.getElementById( "request" );
+		form.addEventListener( "submit", function(event) {
+			event.preventDefault();
+			sendRequest();
+		});
+	});
+	</script>
+</body>
+</html>

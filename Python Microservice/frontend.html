@@ -1,0 +1,93 @@
+<!-- 
+// COSC331 Lab 2
+// Kyle Orcutt
+// 300277486 -->
+
+<html id="container" style="height: 95%;">
+
+<head>
+    <meta charset="UTF-8">
+    <link id="styleLink" rel="stylesheet" href="http://127.0.0.1/" type="text/css" />
+    <script>
+        function fetchCSS() {
+            var main = document.getElementById("main").value.substring(1);
+            var font = document.getElementById("font").value;
+            var container = document.getElementById("container");
+            var styleSheet = document.getElementsByTagName("link");
+            container.style.display = 'none';
+            styleSheet[0].href = "http://127.0.0.1/?main=" + main + "&font=" + font;
+            setTimeout(function() {
+                container.style.display = 'initial';
+            }, 2000);
+        }
+
+        function httpGetAsync(url, callback) {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                    callback(xmlHttp.responseText);
+                }
+            }
+            xmlHttp.open("GET", url, true);
+            xmlHttp.send(null);
+        }
+
+        httpGetAsync('http://127.0.0.1:8080/', function(response) {
+            var doc = new DOMParser().parseFromString(response, "text/html");
+            var code = doc.getElementsByTagName('script')[0].innerHTML;
+
+            doc.getElementsByTagName('script')[0].remove();
+            var insertionPoint = document.getElementById("encryptionService");
+            insertionPoint.innerHTML = doc.body.innerHTML;
+
+            var scriptNode = document.createElement("script");
+            var scriptContent = document.createTextNode(code);
+            scriptNode.appendChild(scriptContent);
+            document.head.appendChild(scriptNode);
+
+        });
+
+        const interval = setInterval(function() {
+            httpGetAsync('http://127.0.0.1:8080/history', function(response) {
+                var insertionPoint = document.getElementById("historyService");
+                var myDiv = document.getElementById("historyService");
+                var jsonobj = JSON.parse(response);
+
+                var myString = "";
+                for (obj in jsonobj) {
+                    myString += "<p>" + jsonobj[obj] + "</p>";
+                }
+                insertionPoint.innerHTML = myString;
+            });
+        }, 30000);
+    </script>
+</head>
+
+<body>
+    <div id="encryptionService">
+    </div>
+    <div id="historyService" style="height: 100px; overflow: auto; border: 1px solid black; margin-left: 30%; margin-right: 30%; background-color: white; padding: 10px;">
+    </div>
+    <div style="position:absolute; top:0; right:0; text-align: center;">
+        <form id="cssForm" onsubmit="fetchCSS();return false;" action="#">
+            <fieldset>
+                <legend>Styling Options:</legend>
+                <label for="main">Main Colour:</label>
+                <input type="color" id="main" name="main" value="#ff0000">
+                <br>
+                <br>
+                <label for="font">Font:</label>
+                <select name="font" id="font">
+				  <option value="serif">Serif</option>
+				  <option value="sans-serif">Sans-Serif</option>
+				  <option value="monospace">Monospace</option>
+				</select>
+                <br>
+                <br>
+                <button type="submit" form="cssForm" value="Submit">Submit</button>
+            </fieldset>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!-- 
+# COSC331 Lab 7
+# Kyle Orcutt
+# 300277486 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Triangular Number Calculator</title>
+</head>
+
+<body>
+    <div id="content">
+    </div>
+    <script>
+        window.addEventListener("load", function() {
+            var myNumber = _NUM_;
+            var port = _PORT_;
+            // Here, we'll create an AJAX request to one of our services with
+            // the specified port number, and the number parameter in the query string
+            var xhtml = new XMLHttpRequest();
+            xhtml.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("content").innerHTML = this.responseText;
+                    document.getElementById("content").append("This response came from the server on port: " + port);
+                }
+            }
+            xhtml.open("GET", "http://127.0.0.1:" + port + "/?number=" + myNumber, true);
+            xhtml.send();
+        });
+    </script>
+</body>
+
+</html>

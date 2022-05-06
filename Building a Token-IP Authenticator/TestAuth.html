@@ -1,0 +1,127 @@
+<html>
+	<head>
+	<style>
+		.login-page {
+		  width: 360px;
+		  padding: 8% 0 0;
+		  margin: auto;
+		}
+		.form {
+		  position: relative;
+		  z-index: 1;
+		  background: #FFFFFF;
+		  max-width: 350px;
+		  margin: 0 auto 0;
+		  padding: 25px;
+		  text-align: center;
+		  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+		}
+		.form input {
+		  background: #FFFFFF;
+		  width: 100%;
+		  padding: 15px;
+		  box-sizing: border-box;
+		  font-size: 15px;
+		  border: 0;
+		  margin: 0 0 10px;
+		}
+		.form button {
+		  background: #474747;
+		  color: #FFFFFF;
+		  border: 0;
+		  font-size: 15px;
+		  width: 100%;
+		  padding: 15px;
+		  transition: all 0.3 ease;
+		  margin-top: 20px;
+		}
+		
+		.output {
+		  width: 100%;
+		  padding: 15px;
+		  box-sizing: border-box;
+		  font-size: 15px;
+		  border: 0;
+		  margin: 0 0 10px;
+		  text-align: center;
+		}
+		
+		.form button:hover,.form button:active,.form button:focus {
+		  background: #000000;
+		}
+		
+		body {
+		  background: linear-gradient(to left, #474747, #FFFFFF);
+		}
+	</style>
+	<body>
+		<div class="login-page">
+			<div class="form">
+				<form id="request">
+					<input type="text" id="username" name="username" placeholder="Username" />
+					<input type="password" id="password" name="password" placeholder="Password" />
+					<button type="submit" class="btn">LOGIN</button>
+				</form>
+			</div>
+			<div id="output" class="output">	
+			</div>
+			<div class="form">
+				<form id="logout">
+					<button type="submit" class="btn">LOGOUT</button>
+				</form>
+			</div>
+			<div id="outputLogout" class="output">	
+			</div>
+			<div id="apiLink" class="form">
+			</div>
+		</div>
+		<script>
+			window.addEventListener( "load", function() {
+				function sendRequest(){
+					var params = "username=" + document.getElementById("username").value + "&password=" + document.getElementById("password").value;
+					var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+					  if (this.readyState == 4) {
+						var outputDiv = document.getElementById("output");
+						if (this.status != 200){
+							outputDiv.style.background = "#FFCCCB";
+							outputDiv.style.color = "#8B0000";
+						}else{
+							outputDiv.style.background = "#90EE90";
+							outputDiv.style.color = "#006500";
+							document.getElementById("apiLink").innerHTML = '<a href="http://127.0.0.1:80/?token=' + this.responseText.slice(-36) + '">http://127.0.0.1:80/?token=' + this.responseText.slice(-36) + '</a>'
+						}
+						outputDiv.innerHTML = this.responseText;
+					  }
+					};
+					xhttp.open("POST", "http://127.0.0.1:8080/login", true);
+					xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+					xhttp.send(params);
+				}
+				function logoutRequest(){
+					var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+					  if (this.readyState == 4 && this.status == 200) {
+						var outputDiv = document.getElementById("outputLogout");
+						outputDiv.style.background = "#90EE90";
+						outputDiv.style.color = "#006500";
+						outputDiv.innerHTML = this.responseText;
+					  }
+					}
+					xhttp.open("GET", "http://127.0.0.1:8080/logout", true);
+					xhttp.send();
+				}
+				const tokenForm = document.getElementById( "request" );
+				tokenForm.addEventListener( "submit", function(event) {
+					event.preventDefault();
+					sendRequest();
+				});
+				const logoutForm = document.getElementById( "logout" );
+				logoutForm.addEventListener( "submit", function(event) {
+					event.preventDefault();
+					logoutRequest();
+				});
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,68 @@
+<html>
+<head>
+<style>
+div {
+	width: 300px;
+	height: 300px;
+	position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+</style>
+</head>
+<body>
+	<div>
+		<form id="request" action="http://localhost:8080/">
+			<fieldset>
+			<legend>Create a Request:</legend>
+			<label>Method</label>
+			<select name="method" id="method" style="width: 100%;">
+				<option value="GET">GET</option>
+				<option value="POST">POST</option>
+				<option value="PUT">PUT</option>
+				<option value="PATCH">PATCH</option>
+				<option value="DELETE">DELETE</option>
+			</select>
+			<br>
+			<br>
+			<label>URI</label>
+			<input style="width: 100%;" type="text" name="URI" id="URI" placeholder="http://localhost:8080/myObject">
+			<br>
+			<br>
+			<label>JSON Data (Optional)</label>
+			<textarea style="width: 100%;" name="content" id="content" form="request" rows="5"></textarea>
+			<br>
+			<br>
+			<input type="submit">
+			</fieldset>
+		</form>
+	</div>
+	<script>
+	window.addEventListener( "load", function() {
+		function sendRequest(){
+			var method = document.getElementById("method");
+			method = method.options[method.selectedIndex].value;
+			var uri = document.getElementById("URI").value;
+			var content = document.getElementById("content").value;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+			  if (this.readyState == 4) {
+				alert("Status Code: " + xhttp.status + "\nResponse: " + this.responseText);
+			  }
+			};
+			xhttp.open(method, uri, true);
+			xhttp.setRequestHeader('Content-type', 'application/json');
+			xhttp.send(content);
+		}
+		const form = document.getElementById( "request" );
+		form.addEventListener( "submit", function(event) {
+			event.preventDefault();
+			sendRequest();
+		});
+	});
+	</script>
+</body>
+</html>

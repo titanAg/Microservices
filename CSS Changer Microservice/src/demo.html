@@ -1,0 +1,68 @@
+<html id="container" style="height: 95%;">
+	<head>
+		<meta charset="UTF-8">
+		<link id="styleLink" rel="stylesheet" href="http://127.0.0.1/" type="text/css"/>
+		<script>
+			function fetchCSS(){
+				var main = document.getElementById("main").value.substring(1);
+				var accent = document.getElementById("accent").value.substring(1);
+				var font = document.getElementById("font").value;
+				var border = document.getElementById("border").value;
+				var container = document.getElementById("container");
+				var styleSheet = document.getElementsByTagName("link");
+				container.style.display='none';
+				styleSheet[0].href = "http://127.0.0.1/?main="+main+"&accent="+accent+"&font="+font+"&border="+border;
+				setTimeout(function(){
+					container.style.display='initial';
+				}, 2000);
+			}
+		</script>
+	</head>
+	<body>
+		<div style="height: 25%;">
+			<div class="messageDiv" style="margin-left: 25%; margin-right: 25%; margin-top: 10%; text-align: center;">
+			<h1>Oh Yeah</h1>
+			<h3>That's a microservice for sure.</h3>
+			</div>
+		</div>
+		<div style="height: 25%; margin-top: 10%;">
+			<div style="margin-left: 40%; margin-right: 40%; text-align: center;">
+			<form id="cssForm" onsubmit="fetchCSS();return false;" action="#">
+				<fieldset>
+					<legend>Styling Options:</legend>
+					<label for="main">Main Colour:</label>
+					<input type="color" id="main" name="main" value="#ff0000">
+					<br>
+					<br>
+					<label for="accent">Accent Colour:</label>
+					<input type="color" id="accent" name="accent" value="#ff0000">
+					<br>
+					<br>
+					<label for="font">Font:</label>
+					<select name="font" id="font">
+					  <option value="serif">Serif</option>
+					  <option value="sans-serif">Sans-Serif</option>
+					  <option value="monospace">Monospace</option>
+					</select>
+					<br>
+					<br>
+					<label for="border">Border Style:</label>
+					<select name="border" id="border">
+						<option value="dotted">Dotted</option>
+						<option value="dashed">Dashed</option>
+						<option value="solid">Solid</option>
+						<option value="double">Double</option>
+						<option value="groove">Groove</option>
+						<option value="ridge">Ridge</option>
+						<option value="inset">Inset</option>
+						<option value="outset">Outset</option>
+						<option value="none">None</option>
+					</select>
+					<br>
+					<br>
+					<button type="submit" form="cssForm" value="Submit">Submit</button>
+				</fieldset>
+			</form>
+		</div>
+	</body>
+</html>
