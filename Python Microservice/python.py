@@ -1,6 +1,4 @@
-# COSC331 Lab 2
 # Kyle Orcutt
-# 300277486
 
 # -*- coding: utf-8 -*-
 """

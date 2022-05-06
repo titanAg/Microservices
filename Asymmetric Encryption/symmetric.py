@@ -1,6 +1,4 @@
-# COSC331 Lab 6
 # Kyle Orcutt
-# 300277486
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import sys

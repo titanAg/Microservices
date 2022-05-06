@@ -1,6 +1,4 @@
-// COSC331 Lab 1 - Building Our First Microservice
 // Kyle Orcutt
-// 300277486
 
 
 import java.io.BufferedReader;

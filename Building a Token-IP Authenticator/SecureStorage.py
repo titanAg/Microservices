@@ -1,6 +1,4 @@
-# COSC331 Lab 5
 # Kyle Orcutt
-# 300277486
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import sys, time
